@@ -1,0 +1,26 @@
+========================================
+   libsecp256k1 0.1: ./test-suite.log
+========================================
+
+# TOTAL: 2
+# PASS:  0
+# SKIP:  0
+# XFAIL: 0
+# FAIL:  2
+# XPASS: 0
+# ERROR: 0
+
+.. contents:: :depth: 2
+
+FAIL: tests
+===========
+
+dyld: mach-o, but built for simulator (not macOS)
+FAIL tests (exit status: 134)
+
+FAIL: exhaustive_tests
+======================
+
+dyld: mach-o, but built for simulator (not macOS)
+FAIL exhaustive_tests (exit status: 134)
+

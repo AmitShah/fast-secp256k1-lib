@@ -7,15 +7,19 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "utility.h"
 
 @interface secp256k1_libTests : XCTestCase
 
 @end
 
-@implementation secp256k1_libTests
+@implementation secp256k1_libTests{
+    Utility *util;
+}
 
 - (void)setUp {
     [super setUp];
+    util = [Utility instance];
     // Put setup code here. This method is called before the invocation of each test method in the class.
 }
 
@@ -25,6 +29,9 @@
 }
 
 - (void)testExample {
+    [util testSignature];
+    [util testSignatureVerification];
+    [util testSignatureVerification2];
     // This is an example of a functional test case.
     // Use XCTAssert and related functions to verify your tests produce the correct results.
 }
