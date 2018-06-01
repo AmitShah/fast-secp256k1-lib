@@ -7,13 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3F9A7D7720BF565D0039468D /* secp256k1_lib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F9A7D6D20BF565D0039468D /* secp256k1_lib.framework */; };
 		3F9A7D7C20BF565D0039468D /* secp256k1_libTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A7D7B20BF565D0039468D /* secp256k1_libTests.m */; };
 		3F9A7D7E20BF565D0039468D /* secp256k1_lib.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F9A7D7020BF565D0039468D /* secp256k1_lib.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3F9A7D8E20BF56EF0039468D /* external-frameworks in Resources */ = {isa = PBXBuildFile; fileRef = 3F9A7D8D20BF56EF0039468D /* external-frameworks */; };
 		3F9A7D9120BF574F0039468D /* keccak-tiny-lib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F9A7D9020BF574F0039468D /* keccak-tiny-lib.a */; };
 		3F9A7D9320BF575A0039468D /* secp256k1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F9A7D9220BF575A0039468D /* secp256k1.framework */; };
-		3F9A7D9520BF583F0039468D /* utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A7D9420BF583F0039468D /* utility.m */; };
+		3F9A840320C0F1500039468D /* utility.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F9A7D9620BF5A9C0039468D /* utility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3F9A840620C100AC0039468D /* utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A7D9420BF583F0039468D /* utility.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +53,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F9A7D7720BF565D0039468D /* secp256k1_lib.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +116,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F9A7D7E20BF565D0039468D /* secp256k1_lib.h in Headers */,
+				3F9A840320C0F1500039468D /* utility.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,7 +201,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F9A7D8E20BF56EF0039468D /* external-frameworks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,7 +218,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F9A7D9520BF583F0039468D /* utility.m in Sources */,
+				3F9A840620C100AC0039468D /* utility.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,7 +294,7 @@
 				HEADER_SEARCH_PATHS = "/Users/amitshah/Documents/ios/secp256k1-lib/external-frameworks/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "/Users/amitshah/Documents/ios/secp256k1-lib/external-frameworks/**";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -351,6 +349,7 @@
 				HEADER_SEARCH_PATHS = "/Users/amitshah/Documents/ios/secp256k1-lib/external-frameworks/**";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "/Users/amitshah/Documents/ios/secp256k1-lib/external-frameworks/**";
 				VALIDATE_PRODUCT = YES;
@@ -382,6 +381,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/external-frameworks/keccak-tiny-singlefile",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.amit.secp256k1-lib";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -413,6 +413,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/external-frameworks/keccak-tiny-singlefile",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.amit.secp256k1-lib";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

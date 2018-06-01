@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "utility.h"
 
 
 //! Project version number for secp256k1_lib.
