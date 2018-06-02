@@ -259,7 +259,100 @@ static int der_sig_parse(char *rr, char *rs, const unsigned char *sig, size_t si
      secp256k1_context_destroy(ctx);
         // Should never be called, but just here for clarity really.
 }
+
+-(NSString*) keccak256:(NSString *)dataHex{
+    NSData * _data = [dataHex dataFromHexString];
+    char hashedData[32];
+    keccack_256(hashedData,32, [_data bytes], [_data length]);
+    return [NSString hexStringWithData:hashedData ofLength:32];
+}
+
+-(NSString*) ecsign:(NSString*) hexData withKey:(NSString*) privateKey{
     
+    NSData * _data = [hexData dataFromHexString];
+    char hashedData[32];
+    keccack_256(hashedData,32, [_data bytes], [_data length]);
+    secp256k1_ecdsa_signature signature;
+    unsigned char sig[74];
+    size_t siglen = 74;
+    secp256k1_ecdsa_recoverable_signature recoverable_sig;
+    
+    secp256k1_ecdsa_sign_recoverable(ctx, &recoverable_sig, hashedData, key, custom_nonce_function_rfc6979, NULL);
+    
+    
+    secp256k1_ecdsa_recoverable_signature_convert(ctx,
+                                                  &signature,
+                                                  &recoverable_sig);
+    
+    secp256k1_ecdsa_signature_serialize_der(ctx, sig, &siglen, &signature);
+    uint8_t r[32];
+    uint8_t s[32];
+    
+    der_sig_parse(r,s, sig, siglen);
+    
+    uint8_t result[65];
+    memcpy(result, r, 32);
+    memcpy(result+32, s, 32);
+    memcpy(result+64, &(recoverable_sig.data[64]), 1);
+    return [NSString hexStringWithData:result ofLength:65];
+
+}
+
+-(NSString*) ecrecover:(NSString*) hexData withR:(NSString*) r withS:(NSString*)s withV:(int) v{
+    secp256k1_ecdsa_recoverable_signature signature;
+    secp256k1_pubkey pubkey;
+    char hash[32];
+    memcpy(hash, [hexData dataFromHexString].bytes,32);
+    //int v = 27; //must be set correctly between 0 and 3
+    char sig[64]; //r and s appended (32 bytes each)
+    memcpy(sig,[ [r stringByAppendingString: s] dataFromHexString].bytes,
+           64);
+    
+    secp256k1_ecdsa_recoverable_signature_parse_compact(ctx,&signature,
+                                                        &sig,v-27);
+    secp256k1_ecdsa_recover(ctx,&pubkey,&signature,hash);
+    
+    size_t output_size = 65;
+    unsigned char output[65];
+    
+    secp256k1_ec_pubkey_serialize(ctx,
+                                  output,
+                                  &output_size,
+                                  &pubkey,
+                                  SECP256K1_EC_UNCOMPRESSED
+                                  );
+    
+    char address[32];
+    uint8_t ss[64];
+    memcpy(ss, output+1,64);
+    
+    keccack_256(address, 32,ss, 64);
+    
+    
+    NSString * stringAddress = [[NSString hexStringWithData:address ofLength:32] substringFromIndex:24];
+    return stringAddress;
+//    NSLog(stringAddress);
+//    if([stringAddress isEqualToString:@"be862ad9abfe6f22bcb087716c7d89a26051f74c"]){
+//        NSLog(@"recovered address (remove first 24 characters):%@",stringAddress);
+//    }
+    
+}
+
+//-(NSString*) sign:(NSString *)msg withKey:(NSString *)privateKey{
+//    char data[msg.length];
+//    char hashedData[32];
+//    //char* data;
+//    memcpy(data, [msg dataFromHexString].bytes,msg.length);
+//    keccack_256(hashedData,32, data, msg.length);
+//
+//    char key[64];
+//    memcpy(key,[privateKey dataFromHexString].bytes,
+//           64);
+//
+//
+//
+//}
+
 -(void) testSignature{
    
     
@@ -289,9 +382,16 @@ static int der_sig_parse(char *rr, char *rs, const unsigned char *sig, size_t si
     //t.s = s;
     //t.r = r;
     
+    uint8_t result[65];
+    memcpy(result, r, 32);
+    memcpy(result+32, s, 32);
+    memcpy(result+64, &(recoverable_sig.data[64]), 1);
+    NSLog([NSString hexStringWithData:result ofLength:65]);
+    
     NSLog([NSString hexStringWithData:r ofLength:32]);
     NSLog([NSString hexStringWithData:s ofLength:32]);
-    NSLog(@"%d",(uint8_t)recoverable_sig.data[64]);
+    NSLog([NSString stringWithFormat: @"%d",(uint8_t)recoverable_sig.data[64]]);
+
    
     
 }

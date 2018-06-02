@@ -16,6 +16,9 @@
 }
 
 + (id)instance;
+- (NSString*) keccak256:(NSString*) dataHex;
+- (NSString*) ecrecover:(NSString*) hexData withR:(NSString*) r withS:(NSString*)s withV:(int) v;
+- (NSString*) ecsign:(NSString*) hexData withKey:(NSString*) privateKey;
 - (void) testSignature;
 - (void) testSignatureVerification;
 - (void) testSignatureVerification2;
