@@ -225,7 +225,7 @@ static int der_sig_parse(char *rr, char *rs, const unsigned char *sig, size_t si
 
 @implementation Utility{
     secp256k1_context * ctx;
-    unsigned char key[32];
+    //unsigned char key[32];
 }
     
 +(id)instance {
@@ -244,8 +244,8 @@ static int der_sig_parse(char *rr, char *rs, const unsigned char *sig, size_t si
 - (id)init {
         if (self = [super init]) {
             ctx = secp256k1_context_create(SECP256K1_CONTEXT_SIGN | SECP256K1_CONTEXT_VERIFY);
-            memcpy(key,[@"e331b6d69882b4cb4ea581d88e0b604039a3de5967688d3dcffdd2270c0fd109" dataFromHexString].bytes,
-                   32);
+//            memcpy(key,[@"e331b6d69882b4cb4ea581d88e0b604039a3de5967688d3dcffdd2270c0fd109" dataFromHexString].bytes,
+//                   32);
             //someProperty = [[NSString alloc] initWithString:@"Default Property Value"];
         }
         return self;
@@ -268,7 +268,9 @@ static int der_sig_parse(char *rr, char *rs, const unsigned char *sig, size_t si
 }
 
 -(NSString*) ecsign:(NSString*) hexData withKey:(NSString*) privateKey{
-    
+    unsigned char key[32];
+    memcpy(key,[privateKey dataFromHexString].bytes,
+           32);
     NSData * _data = [hexData dataFromHexString];
     char hashedData[32];
     keccack_256(hashedData,32, [_data bytes], [_data length]);
@@ -355,7 +357,10 @@ static int der_sig_parse(char *rr, char *rs, const unsigned char *sig, size_t si
 
 -(void) testSignature{
    
-    
+    unsigned char key[32];
+    memcpy(key,[@"e331b6d69882b4cb4ea581d88e0b604039a3de5967688d3dcffdd2270c0fd109" dataFromHexString].bytes,
+                       32);
+
     char* elem = [[NSString stringWithFormat:@"element"] UTF8String];
     char hashedTransaction[32];
     keccack_256(hashedTransaction, 32, elem , 7);
