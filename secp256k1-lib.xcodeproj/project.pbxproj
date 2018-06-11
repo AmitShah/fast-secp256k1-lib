@@ -6,6 +6,20 @@
 	objectVersion = 48;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		3F23EA8720CDE9F7006074B5 /* secp256k1-universal-lib */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 3F23EA8A20CDE9F7006074B5 /* Build configuration list for PBXAggregateTarget "secp256k1-universal-lib" */;
+			buildPhases = (
+				3F23EA8B20CDEA07006074B5 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "secp256k1-universal-lib";
+			productName = "secp256k1-universal-lib";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		3F9A7D7C20BF565D0039468D /* secp256k1_libTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F9A7D7B20BF565D0039468D /* secp256k1_libTests.m */; };
 		3F9A7D7E20BF565D0039468D /* secp256k1_lib.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F9A7D7020BF565D0039468D /* secp256k1_lib.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -168,6 +182,10 @@
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Amit Shah";
 				TargetAttributes = {
+					3F23EA8720CDE9F7006074B5 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
 					3F9A7D6C20BF565D0039468D = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
@@ -192,6 +210,7 @@
 			targets = (
 				3F9A7D6C20BF565D0039468D /* secp256k1-lib */,
 				3F9A7D7520BF565D0039468D /* secp256k1-libTests */,
+				3F23EA8720CDE9F7006074B5 /* secp256k1-universal-lib */,
 			);
 		};
 /* End PBXProject section */
@@ -212,6 +231,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3F23EA8B20CDEA07006074B5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\nFRAMEWORK_NAME=\"secp256k1_lib\"\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target \"${PROJECT_NAME}\" ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" clean build\nxcodebuild -target \"${PROJECT_NAME}\" -configuration ${CONFIGURATION} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" clean build\n\n# Step 2. Copy the framework structure (from iphoneos build) to the universal folder\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_NAME}.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n\n# Step 4. Create universal binary file using lipo and place the combined executable in the copied framework directory\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_NAME}.framework/${FRAMEWORK_NAME}\"\n\n\n\n\nopen \"${BUILD_ROOT}\"\n\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3F9A7D6820BF565D0039468D /* Sources */ = {
@@ -241,6 +276,24 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		3F23EA8820CDE9F7006074B5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N4UM38SSUJ;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3F23EA8920CDE9F7006074B5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N4UM38SSUJ;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		3F9A7D7F20BF565D0039468D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -451,6 +504,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3F23EA8A20CDE9F7006074B5 /* Build configuration list for PBXAggregateTarget "secp256k1-universal-lib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F23EA8820CDE9F7006074B5 /* Debug */,
+				3F23EA8920CDE9F7006074B5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		3F9A7D6720BF565D0039468D /* Build configuration list for PBXProject "secp256k1-lib" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
